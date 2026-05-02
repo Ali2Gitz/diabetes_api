@@ -48,7 +48,7 @@ if st.button("Predict Risk"):
             prediction_data = response.json()
             
             # 2. Safely get the diagnosis
-            diagnosis = prediction_data.get('diagnosis', 'Unknown Result')
+            diagnosis = prediction_data.get('diagnosis', 'No diagnosis found')
             
             st.subheader("Result:")
             if diagnosis == "Diabetic":
@@ -60,13 +60,13 @@ if st.button("Predict Risk"):
             st.subheader("📊 What influenced this prediction?")
             
             # Get the importance data from the API response
-            importance = prediction_data.get('feature_importance', {})
+            importances = prediction_data.get('feature_importance', {})
             
-            if importance:
+            if importances:
             # Convert to a DataFrame for easy plotting
                 df_importance = pd.DataFrame({
-                    'Feature': importance.keys(),
-                    'Importance': importance.values()
+                    'Feature': list(importances.keys()),
+                    'Importance': list (importances.values())
                 }).sort_values(by='Importance', ascending=True)
 
                 # Create the horizontal bar chart
