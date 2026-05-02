@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import numpy as np
+# 2. Load the saved model
+model = joblib.load("diabetes_model.joblib")
 #for importance features
 # At the top of main.py, get the importance scores once
 feature_names = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "Pedigree", "Age"]
@@ -25,10 +27,6 @@ def predict_diabetes(data: DiabetesInput):
 #end code for important features
 # 1. Initialize FastAPI app
 app = FastAPI()
-
-# 2. Load the saved model
-
-model = joblib.load("diabetes_model.joblib")
 
 # 3. Define the input shape (The 8 features of the Pima dataset)
 class DiabetesInput(BaseModel):
