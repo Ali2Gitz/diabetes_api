@@ -45,10 +45,10 @@ if st.button("Predict Risk"):
         
         # 1. Check if the API request was successful (Status Code 200)
         if response.status_code == 200:
-            prediction = response.json()
+            prediction_data = response.json()
             
             # 2. Safely get the diagnosis
-            diagnosis = prediction.get('diagnosis', 'Unknown Result')
+            diagnosis = prediction_data.get('diagnosis', 'Unknown Result')
             
             st.subheader("Result:")
             if diagnosis == "Diabetic":
@@ -63,7 +63,7 @@ if st.button("Predict Risk"):
             importances = prediction_data.get('feature_importance', {})
             
             if importances:
-                # Convert to a DataFrame for easy plotting
+            # Convert to a DataFrame for easy plotting
                 df_importance = pd.DataFrame({
                     'Feature': importances.keys(),
                     'Importance': importances.values()
