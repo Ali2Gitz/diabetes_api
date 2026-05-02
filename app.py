@@ -60,13 +60,13 @@ if st.button("Predict Risk"):
             st.subheader("📊 What influenced this prediction?")
             
             # Get the importance data from the API response
-            importances = prediction_data.get('feature_importance', {})
+            importance = prediction_data.get('feature_importance', {})
             
-            if importances:
+            if importance:
             # Convert to a DataFrame for easy plotting
                 df_importance = pd.DataFrame({
-                    'Feature': importances.keys(),
-                    'Importance': importances.values()
+                    'Feature': importance.keys(),
+                    'Importance': importance.values()
                 }).sort_values(by='Importance', ascending=True)
 
                 # Create the horizontal bar chart
