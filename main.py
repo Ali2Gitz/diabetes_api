@@ -10,6 +10,7 @@ feature_names = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "In
 importances = model.feature_importances_.tolist()
 feature_importance_dict = dict(zip(feature_names, importances))
 
+app = FastAPI()
 @app.post("/predict")
 def predict_diabetes(data: DiabetesInput):
     input_data = [[data.Pregnancies, data.Glucose, data.BloodPressure, 
