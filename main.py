@@ -7,8 +7,8 @@ model = joblib.load("diabetes_model.joblib")
 #for importance features
 # At the top of main.py, get the importance scores once
 feature_names = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "Pedigree", "Age"]
-importances = model.feature_importances_.tolist()
-feature_importance_dict = dict(zip(feature_names, importances))
+importance = model.feature_importance_.tolist()
+feature_importance_dict = dict(zip(feature_names, importance))
 
 app = FastAPI()
 @app.post("/predict")
