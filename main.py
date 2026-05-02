@@ -7,10 +7,22 @@ model = joblib.load("diabetes_model.joblib")
 #for importance features
 # At the top of main.py, get the importance scores once
 feature_names = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "Pedigree", "Age"]
-importance = model.feature_importance_.tolist()
-feature_importance_dict = dict(zip(feature_names, importance))
+importances = model.feature_importance_.tolist()
+feature_importance_dict = dict(zip(feature_names, importances))
 
 app = FastAPI()
+app = FastAPI()
+
+# 3Define the input shape (The 8 features of the Pima dataset)
+class DiabetesInput(BaseModel):
+    Pregnancies: int
+    Glucose: float
+    BloodPressure: float
+    SkinThickness: float
+    Insulin: float
+    BMI: float
+    DiabetesPedigreeFunction: float
+    Age: int
 @app.post("/predict")
 def predict_diabetes(data: DiabetesInput):
     input_data = [[data.Pregnancies, data.Glucose, data.BloodPressure, 
@@ -23,22 +35,10 @@ def predict_diabetes(data: DiabetesInput):
     return {
         "prediction": int(prediction[0]),
         "diagnosis": result,
-        "feature_importance": feature_importance_dict # Add this line
+        "feature_importance": feature_importance_dict # key matches app.py
     }
 #end code for important features
 # 1. Initialize FastAPI app
-app = FastAPI()
-
-# 3. Define the input shape (The 8 features of the Pima dataset)
-class DiabetesInput(BaseModel):
-    Pregnancies: int
-    Glucose: float
-    BloodPressure: float
-    SkinThickness: float
-    Insulin: float
-    BMI: float
-    DiabetesPedigreeFunction: float
-    Age: int
 
 @app.get("/")
 def home():
