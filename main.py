@@ -2,7 +2,27 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import numpy as np
+#for importance features
+# At the top of main.py, get the importance scores once
+feature_names = ["Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "Pedigree", "Age"]
+importances = model.feature_importances_.tolist()
+feature_importance_dict = dict(zip(feature_names, importances))
 
+@app.post("/predict")
+def predict_diabetes(data: DiabetesInput):
+    input_data = [[data.Pregnancies, data.Glucose, data.BloodPressure, 
+                    data.SkinThickness, data.Insulin, data.BMI, 
+                    data.DiabetesPedigreeFunction, data.Age]]
+    
+    prediction = model.predict(input_data)
+    result = "Diabetic" if int(prediction[0]) == 1 else "Healthy"
+    
+    return {
+        "prediction": int(prediction[0]),
+        "diagnosis": result,
+        "feature_importance": feature_importance_dict # Add this line
+    }
+#end code for important features
 # 1. Initialize FastAPI app
 app = FastAPI()
 
